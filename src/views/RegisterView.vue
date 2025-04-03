@@ -1,104 +1,142 @@
 <template>
-    <div class="container d-flex justify-content-center align-items-center vh-100">
-      <div class="card p-4 shadow-sm" style="width: 100%; max-width: 400px; min-height: 400px;">
-        <h3 class="mb-3 mt-3">Register</h3>
-        <form @submit.prevent="handleRegister">
-          <!-- Email Input -->
-          <div class="mb-3">
-            <div class="input-group">
-              <input
-                type="email"
-                class="form-control"
-                placeholder="Email"
-                v-model="email"
-                required
-              />
-            </div>
-          </div>
-  
-          <!-- Password Input -->
-          <div class="mb-3">
-            <div class="input-group">
-              <input
-                type="password"
-                class="form-control"
-                placeholder="Password"
-                v-model="password"
-                required
-              />
-            </div>
-          </div>
-  
-          <!-- Confirm Password Input -->
-          <div class="mb-3">
-            <div class="input-group">
-              <input
-                type="password"
-                class="form-control"
-                placeholder="Confirm Password"
-                v-model="confirmPassword"
-                required
-              />
-            </div>
-            <small v-if="passwordMismatch" class="text-danger">
-              Passwords do not match
-            </small>
-          </div>
-  
-          <!-- Register Button -->
-          <button type="submit" class="btn btn-secondary mb-3 float-end" style="padding: 8px 30px;">Register</button>
-        </form>
+  <div class="container d-flex justify-content-center align-items-center vh-100">
+    <div class="card p-4 shadow-sm" style="width: 100%; max-width: 400px; min-height: 400px;">
+    <h3 class="mb-3 mt-3">Register</h3>
+    <form @submit.prevent="handleRegister">
+      <!-- Email Input -->
+      <div class="mb-3">
+      <div class="input-group">
+        <input
+        name="user_name"
+        type="email"
+        class="form-control"
+        placeholder="Email"
+        v-model="user_name"
+        @blur="validateEmail"
+        required
+        />
       </div>
+      <small v-if="emailInvalid" class="text-danger mt-2 d-block">
+        Email must be less than 20 characters
+      </small>
+      </div>
+  
+      <!-- Password Input -->
+      <div class="mb-3">
+        <div class="input-group">
+          <input
+            type="password"
+            class="form-control"
+            placeholder="Password"
+            v-model="password"
+            @blur="validatePassword"
+            required
+          />
+        </div>
+        <small v-if="passwordInvalid" class="text-danger mt-2 d-block">
+            Password must be between 6 and 20 characters
+        </small>
+      </div>
+  
+      <!-- Confirm Password Input -->
+      <div class="mb-3">
+      <div class="input-group">
+        <input
+        type="password"
+        class="form-control"
+        placeholder="Confirm Password"
+        v-model="confirmPassword"
+        @blur="validatePasswordMatch"
+        required
+        />
+      </div>
+      <small v-if="passwordMismatch" class="text-danger">
+        Passwords do not match
+      </small>
+      </div>
+  
+      <!-- Register Button -->
+      <div class="d-flex justify-content-between mt-4">
+        <router-link to="/" class="w-50 me-2">
+          <button type="button" class="btn btn-primary btn-custom w-100">Back to Login</button>
+        </router-link>
+        <button type="submit" class="btn btn-secondary btn-custom w-50">Register</button>
+      </div>
+    </form>
     </div>
+  </div>
   </template>
   
   <script lang="ts">
   import { defineComponent, ref, computed } from 'vue';
   
   export default defineComponent({
-    name: 'RegisterForm',
-    setup() {
-      const email = ref<string>('');
-      const password = ref<string>('');
-      const confirmPassword = ref<string>('');
+  name: 'RegisterForm',
+  setup() {
+    const user_name = ref<string>('');
+    const password = ref<string>('');
+    const confirmPassword = ref<string>('');
+    const emailInvalid = ref<boolean>(false);
+    const passwordInvalid = ref<boolean>(false);
 
-      const passwordMismatch = computed(() => {
-        return password.value !== confirmPassword.value && confirmPassword.value !== '';
-      });
+    const passwordMismatch = computed(() => {
+    return password.value !== confirmPassword.value && confirmPassword.value !== '';
+    });
+
+    const validateEmail = () => {
+      return emailInvalid.value = user_name.value.length > 20;
+    };
+
+    const validatePassword = () => {
+      return passwordInvalid.value = password.value.length < 6 || password.value.length > 20;
+    };
+
+    const validatePasswordMatch = () => {
+      return passwordInvalid.value = password.value.length < 6 || password.value.length > 20;
+    };
   
-      const handleRegister = () => {
-        if (passwordMismatch.value) {
-          console.log('Passwords do not match');
-          return;
-        }
+    const handleRegister = () => {
+    validateEmail();
+    if (passwordMismatch.value) {
+      console.log('Passwords do not match');
+      return;
+    }
+
+    if (emailInvalid.value) {
+      return;
+    }
   
-        console.log('Email:', email.value);
-        console.log('Password:', password.value);
-        console.log('Confirm Password:', confirmPassword.value);
-      };
+    console.log('UserName:', user_name.value);
+    console.log('Password:', password.value);
+    };
   
-      return {
-        email,
-        password,
-        confirmPassword,
-        passwordMismatch,
-        handleRegister,
-      };
-    },
+    return {
+    user_name,
+    password,
+    confirmPassword,
+    passwordMismatch,
+    emailInvalid,
+    passwordInvalid,
+    validateEmail,
+    validatePassword,
+    validatePasswordMatch,
+    handleRegister,
+    };
+  },
   });
   </script>
   
   <style scoped>
   .card {
-    border-radius: 10px;
+  border-radius: 10px;
   }
   
   .btn-secondary {
-    background-color: #6c757d;
-    border: none;
+  background-color: #6c757d;
+  border: none;
   }
   
   .btn-secondary:hover {
-    background-color: #5a6268;
+  background-color: #5a6268;
   }
   </style>

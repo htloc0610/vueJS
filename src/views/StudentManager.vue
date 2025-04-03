@@ -1,9 +1,9 @@
 <template>
     <div class="p-4">
       <!-- Header -->
-      <div class="flex justify-content-between align-items-center mb-4">
+      <div class="d-flex justify-content-between align-items-center mb-4">
         <div>
-          <!-- <img src="@/assets/logo.png" alt="Logo" style="width: 50px;" /> -->
+          <img src="" alt="Logo" style="width: 50px;" />
         </div>
         <div>
           <span class="mr-3">Welcome, Nguyễn Văn A</span>
@@ -12,23 +12,25 @@
       </div>
   
       <!-- Search Form -->
-      <div class="grid mb-4">
-        <div class="col-12 md:col-4">
-          <label class="block mb-2">Student Code:</label>
-          <InputText v-model="searchCode" class="w-full" />
+        <div class="d-flex flex-column align-items-center justify-content-center">
+            <div class="d-flex flex-row align-items-center justify-content-center gap-2 mb-2" style="width: 400px;">
+                <label class="block mb-2" style="width: 30%;">Student Code:</label>
+                <InputText v-model="searchCode" class="w-full" style="width: 70%;" />
+            </div>
+            <div class="d-flex flex-row align-items-center justify-content-center gap-2 mb-2" style="width: 400px;">
+                <label class="block mb-2" style="width: 30%;">Student Name:</label>
+                <InputText v-model="searchName" class="w-full" style="width: 70%;" />
+            </div>
+            <div class="d-flex flex-row align-items-center justify-content-center gap-2 mb-2" style="width: 400px;">
+                <label class="block mb-2" style="width: 30%;">Birthday:</label>
+                <Calendar v-model="searchBirthday" dateFormat="dd/mm/yy" class="w-full" style="width: 70%;" />
+            </div>
+            <div class="d-flex flex-row align-items-center justify-content-end gap-2 mb-2" style="width: 400px;">
+                <Button label="Search" icon="pi pi-search" @click="handleSearch" style="width: 33%;"/>
+                <Button label="Add" icon="pi pi-plus" @click="addStudent" style="width: 33%;"/>
+            </div>
         </div>
-        <div class="col-12 md:col-4">
-          <label class="block mb-2">Student Name:</label>
-          <InputText v-model="searchName" class="w-full" />
-        </div>
-        <div class="col-12 md:col-4">
-          <label class="block mb-2">Birthday:</label>
-          <Calendar v-model="searchBirthday" dateFormat="dd/mm/yy" class="w-full" />
-        </div>
-      </div>
-      <div class="text-right">
-        <Button label="Search" icon="pi pi-search" @click="handleSearch" />
-      </div>
+
   
       <!-- Table -->
       <DataTable :value="paginatedStudents" class="p-datatable-sm mt-4" responsiveLayout="scroll">
@@ -54,9 +56,8 @@
       <Paginator
         :rows="pageSize"
         :totalRecords="students.length"
-        :rowsPerPageOptions="[3, 5, 10]"
         @page="onPageChange"
-        template="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink"
+        template="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink "
       />
     </div>
   </template>
@@ -70,7 +71,7 @@
   import Calendar from 'primevue/calendar';
   import Button from 'primevue/button';
   import Paginator from 'primevue/paginator';
-  
+
   export default defineComponent({
     components: {
       DataTable,
@@ -126,6 +127,11 @@
         // Logic đăng xuất
         console.log('Logout clicked');
       };
+
+    const addStudent = () => {
+        // Logic to add a new student (e.g., open a dialog or navigate to a form page)
+        console.log('Add student clicked');
+    };
   
       return {
         searchCode,
@@ -140,6 +146,7 @@
         deleteStudent,
         editStudent,
         onPageChange,
+        addStudent,
         logout,
       };
     },
@@ -147,5 +154,4 @@
   </script>
   
   <style scoped>
-  /* Optional: Add custom styles if needed */
   </style>

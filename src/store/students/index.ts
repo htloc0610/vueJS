@@ -1,3 +1,4 @@
+import { filter } from '@primeuix/themes/aura/datatable';
 import { defineStore } from 'pinia';
 
 export interface Student {
@@ -47,6 +48,11 @@ export const useStudentStore = defineStore('student', {
     deleteStudent(id: number) {
       this.students = this.students.filter(student => student.id !== id);
     },
+    addStudent(newStudent: Student) {
+      const maxId = this.students.reduce((max, student) => Math.max(max, student.id), 0);
+      newStudent.id = maxId + 1;
+      this.students.push(newStudent);
+    },
     searchStudents({ code, name, birthday }: { code: string; name: string; birthday: string }) {
       this.students = this.students.filter(student => {
         return (
@@ -56,6 +62,15 @@ export const useStudentStore = defineStore('student', {
         );
       });
       this.currentPage = 1;
+    },
+    getStudentById(id: number) {
+      return this.students.find(student => student.id === id) || null;
+    },
+    updateStudent(updatedStudent: Student) {
+      const index = this.students.findIndex(student => student.id === updatedStudent.id);
+      if (index !== -1) {
+      this.students[index] = { ...this.students[index], ...updatedStudent };
+      }
     },
     setPage(page: number) {
       if (page >= 1 && page <= this.totalPages) {

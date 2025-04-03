@@ -1,9 +1,9 @@
 <template>
-    <div class="p-4">
+    <div class="p-2">
       <!-- Header -->
       <div class="d-flex justify-content-between align-items-center mb-4">
         <div>
-          <img src="" alt="Logo" style="width: 50px;" />
+            <img src="@/assets/imgs/gmo.png" alt="Logo" style="width: 120px;" />
         </div>
         <div>
           <span class="mr-3">Welcome, Nguyễn Văn A</span>
@@ -27,7 +27,7 @@
             </div>
             <div class="d-flex flex-row align-items-center justify-content-end gap-2 mb-2" style="width: 400px;">
                 <Button label="Search" icon="pi pi-search" @click="handleSearch" style="width: 33%;"/>
-                <Button label="Add" icon="pi pi-plus" @click="addStudent" style="width: 33%;"/>
+                <Button label="Add" icon="pi pi-plus" @click="$router.push('/add-student')" style="width: 33%;"/>
             </div>
         </div>
 
@@ -71,6 +71,8 @@
   import Calendar from 'primevue/calendar';
   import Button from 'primevue/button';
   import Paginator from 'primevue/paginator';
+  import { useRouter } from 'vue-router';
+
 
   export default defineComponent({
     components: {
@@ -83,7 +85,8 @@
     },
     setup() {
       const studentStore = useStudentStore();
-  
+      const router = useRouter();
+
       // Search fields
       const searchCode = ref('');
       const searchName = ref('');
@@ -115,8 +118,8 @@
       };
   
       const editStudent = (student: any) => {
-        // Chức năng chỉnh sửa (có thể mở một dialog để chỉnh sửa)
-        console.log('Edit student:', student);
+        // Navigate to the edit student page with the student's ID
+        router.push(`/edit-student/${student.id}`);
       };
   
       const onPageChange = (event: any) => {

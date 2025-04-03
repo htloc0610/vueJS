@@ -1,5 +1,5 @@
 <template>
-    <div class="p-2">
+    <div class="p-4">
       <!-- Header -->
       <div class="d-flex justify-content-between align-items-center mb-4">
         <div>

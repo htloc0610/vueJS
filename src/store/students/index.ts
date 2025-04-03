@@ -1,4 +1,3 @@
-import { filter } from '@primeuix/themes/aura/datatable';
 import { defineStore } from 'pinia';
 
 export interface Student {
@@ -32,7 +31,6 @@ export const useStudentStore = defineStore('student', {
     currentPage: 1,
     pageSize: 5,
   }),
-
   getters: {
     paginatedStudents(state) {
       const start = (state.currentPage - 1) * state.pageSize;
@@ -43,7 +41,6 @@ export const useStudentStore = defineStore('student', {
       return Math.ceil(state.students.length / state.pageSize);
     },
   },
-
   actions: {
     deleteStudent(id: number) {
       this.students = this.students.filter(student => student.id !== id);

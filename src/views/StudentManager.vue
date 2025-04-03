@@ -13,21 +13,19 @@
   
       <!-- Search Form -->
         <div class="d-flex flex-column align-items-center justify-content-center">
-            <div class="d-flex flex-row align-items-center justify-content-center gap-2 mb-2" style="width: 400px;">
-                <label class="block mb-2" style="width: 30%;">Student Code:</label>
-                <InputText v-model="searchCode" class="w-full" style="width: 70%;" />
+            <div class="d-flex flex-row align-items-center justify-content-center gap-2 mb-2" style="width: 400px; margin-left: -15%;">
+              <label class="block mb-2" style="width: 30%;">Student Code:</label>
+              <InputText v-model="searchCode" class="w-full" style="width: 70%;" />
             </div>
-            <div class="d-flex flex-row align-items-center justify-content-center gap-2 mb-2" style="width: 400px;">
-                <label class="block mb-2" style="width: 30%;">Student Name:</label>
-                <InputText v-model="searchName" class="w-full" style="width: 70%;" />
+            <div class="d-flex flex-row align-items-center justify-content-center gap-2 mb-2 position-relative" style="width: 400px; margin-left: -15%;">
+              <label class="block mb-2" style="width: 30%;">Student Name:</label>
+              <InputText v-model="searchName" class="w-full" style="width: 70%;" />
+              <Button label="Search" icon="pi pi-search" @click="handleSearch" style="width: 33%; position: absolute; right: -40%;"/>
             </div>
-            <div class="d-flex flex-row align-items-center justify-content-center gap-2 mb-2" style="width: 400px;">
-                <label class="block mb-2" style="width: 30%;">Birthday:</label>
-                <DayPicker v-model="searchBirthday" dateFormat="dd/mm/yy" class="w-full" style="width: 70%;" />
-            </div>
-            <div class="d-flex flex-row align-items-center justify-content-end gap-2 mb-2" style="width: 400px;">
-                <Button label="Search" icon="pi pi-search" @click="handleSearch" style="width: 33%;"/>
-                <Button label="Add" icon="pi pi-plus" @click="$router.push('/add-student')" style="width: 33%;"/>
+            <div class="d-flex flex-row align-items-center justify-content-center gap-2 mb-2 position-relative" style="width: 400px; margin-left: -15%;">
+              <label class="block mb-2" style="width: 30%;">Birthday:</label>
+              <DayPicker v-model="searchBirthday" dateFormat="dd/mm/yy" class="w-full" style="width: 70%;" />
+              <Button label="Add" icon="pi pi-plus" @click="$router.push('/add-student')" style="width: 33%; position: absolute; right: -40%;"/>
             </div>
         </div>
 
@@ -128,7 +126,7 @@
   
       const logout = () => {
         // Logic đăng xuất
-        console.log('Logout clicked');
+        router.push('/'); // Redirect to login page
       };
 
     const addStudent = () => {

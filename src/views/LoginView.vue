@@ -53,6 +53,7 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
+import { useRouter } from 'vue-router';
 
 export default defineComponent({
   name: 'LoginForm',
@@ -61,6 +62,7 @@ export default defineComponent({
     const password = ref<string>('');
     const passwordInvalid = ref<boolean>(false);
     const emailInvalid = ref<boolean>(false);
+    const router = useRouter();
 
     const validatePassword = () => {
       passwordInvalid.value = password.value.length < 6 || password.value.length > 20;
@@ -74,6 +76,7 @@ export default defineComponent({
       if (!emailInvalid.value && !passwordInvalid.value) {
         console.log('userName:', user_name.value);
         console.log('Password:', password.value);
+        router.push('/students');
       } else {
         console.log('Validation failed');
       }

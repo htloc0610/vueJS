@@ -23,6 +23,7 @@
   import { defineComponent } from 'vue';
   import StudentForm from '@/components/StudentForm.vue';
   import Button from 'primevue/button';
+  import { useRouter } from 'vue-router';
 
   export default defineComponent({
     components: {
@@ -30,8 +31,9 @@
       Button,
     },
     setup() {
+      const router = useRouter();
       const logout = () => {
-        console.log('Logout clicked');
+        router.push('/'); // Redirect to login page
       };
   
       return {

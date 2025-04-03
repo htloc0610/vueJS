@@ -50,6 +50,7 @@ export const useStudentStore = defineStore('student', {
     },
     addStudent(newStudent: Student) {
       const maxId = this.students.reduce((max, student) => Math.max(max, student.id), 0);
+      newStudent.birthday = new Date(newStudent.birthday).toLocaleDateString('en-GB');
       newStudent.id = maxId + 1;
       this.students.push(newStudent);
     },
@@ -69,7 +70,12 @@ export const useStudentStore = defineStore('student', {
     updateStudent(updatedStudent: Student) {
       const index = this.students.findIndex(student => student.id === updatedStudent.id);
       if (index !== -1) {
-      this.students[index] = { ...this.students[index], ...updatedStudent };
+      this.students[index] = {
+        ...this.students[index],
+        ...updatedStudent,
+        score: updatedStudent.score ?? 0,
+        birthday: updatedStudent.birthday ? new Date(updatedStudent.birthday).toLocaleDateString('en-GB') : '',
+      };
       }
     },
     setPage(page: number) {

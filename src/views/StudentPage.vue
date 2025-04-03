@@ -15,7 +15,7 @@
       <h2 class="text-center mb-4">STUDENT</h2>
   
       <!-- Student Form Component -->
-      <StudentForm @save="saveStudent" @back="goBack" />
+      <StudentForm/>
     </div>
   </template>
   
@@ -23,39 +23,18 @@
   import { defineComponent } from 'vue';
   import StudentForm from '@/components/StudentForm.vue';
   import Button from 'primevue/button';
-  import { useStudentStore } from '@/store/students';
-  import { useRouter } from 'vue-router';
-  
+
   export default defineComponent({
     components: {
       StudentForm,
       Button,
     },
     setup() {
-      const studentStore = useStudentStore();
-      const router = useRouter();
-  
-      const saveStudent = (studentData: any) => {
-        if (!studentData.name || !studentData.address || !studentData.score || !studentData.birthday) {
-          alert('Please fill in all required fields.');
-          return;
-        }
-  
-        studentStore.addStudent(studentData);
-        router.push('/students'); // Navigate back after saving
-      };
-  
-      const goBack = () => {
-        router.push('/students');
-      };
-  
       const logout = () => {
         console.log('Logout clicked');
       };
   
       return {
-        saveStudent,
-        goBack,
         logout,
       };
     },

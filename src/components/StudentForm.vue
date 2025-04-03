@@ -48,90 +48,91 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, onMounted, watch } from 'vue';
-import InputText from 'primevue/inputtext';
-import InputNumber from 'primevue/inputnumber';
-import DayPicker from 'primevue/calendar';
-import Button from 'primevue/button';
-import { useStudentStore } from '@/store/students';
-import { useRoute } from 'vue-router';
+  import { defineComponent, reactive, onMounted, watch } from 'vue';
+  import InputText from 'primevue/inputtext';
+  import InputNumber from 'primevue/inputnumber';
+  import DayPicker from 'primevue/calendar';
+  import Button from 'primevue/button';
+  import { useStudentStore } from '@/store/students';
+  import { useRoute } from 'vue-router';
+  import { useRouter } from 'vue-router';
 
-export default defineComponent({
-  components: {
-    InputText,
-    InputNumber,
-    DayPicker,
-    Button,
-  },
-  setup(_, { emit }) {
-    const route = useRoute();
-    const studentStore = useStudentStore();
-    const formData = reactive({
-      id: 0,
-      code: '',
-      name: '',
-      birthday: null as Date | null,
-      address: '',
-      score: null as number | null,
-    });
+  export default defineComponent({
+    components: {
+      InputText,
+      InputNumber,
+      DayPicker,
+      Button,
+    },
+    setup() {
+      const route = useRoute();
+      const router = useRouter();
+      const studentStore = useStudentStore();
+      const formData = reactive({
+        id: 0,
+        code: '',
+        name: '',
+        birthday: null as Date | null,
+        address: '',
+        score: null as number | null,
+      });
 
-    const isEditMode = !!route.params.id;
+      const isEditMode = !!route.params.id;
 
-    onMounted(() => {
-      if (isEditMode) {
-        const student = studentStore.getStudentById(parseInt(route.params.id as string, 10));
-        if (student) {
-          formData.id = student.id;
-          formData.code = student.code;
-          formData.name = student.name;
-          formData.birthday = new Date(student.birthday);
-          formData.address = student.address;
-          formData.score = student.score;
+      onMounted(() => {
+        if (isEditMode) {
+          const student = studentStore.getStudentById(parseInt(route.params.id as string, 10));
+          if (student) {
+            formData.id = student.id;
+            formData.code = student.code;
+            formData.name = student.name;
+            formData.birthday = new Date(student.birthday);
+            formData.address = student.address;
+            formData.score = student.score;
+          }
+        } else {
+          generateCode(); // Nếu là chế độ Add, tạo mã sinh viên mới
         }
-      } else {
-        generateCode(); // Nếu là chế độ Add, tạo mã sinh viên mới
-      }
-    });
+      });
 
-    const generateCode = () => {
-      formData.code = `STU${Math.floor(Math.random() * 10000)}`;
-    };
+      const generateCode = () => {
+        formData.code = `STU${Math.floor(Math.random() * 10000)}`;
+      };
 
-    const saveStudent = () => {
-      if (!formData.name || !formData.address || !formData.score || !formData.birthday) {
-        alert('Please fill in all required fields.');
-        return;
-      }
+      const saveStudent = () => {
+        if (!formData.name || !formData.address || !formData.score || !formData.birthday) {
+          alert('Please fill in all required fields.');
+          return;
+        }
+        if (isEditMode) {
+          studentStore.updateStudent({
+            ...formData,
+            score: formData.score ?? 0,
+            birthday: formData.birthday ? formData.birthday.toISOString() : '',
+          });
+        } else {
+          studentStore.addStudent({
+            ...formData,
+            score: formData.score ?? 0,
+            birthday: formData.birthday ? formData.birthday.toISOString() : '',
+          });
+        }
+        router.push('/students');
+      };
 
-      if (isEditMode) {
-        studentStore.updateStudent({
-          ...formData,
-          score: formData.score ?? 0,
-          birthday: formData.birthday ? formData.birthday.toISOString() : '',
-        });
-      } else {
-        studentStore.addStudent({
-          ...formData,
-          score: formData.score ?? 0,
-          birthday: formData.birthday ? formData.birthday.toISOString() : '',
-        });
-      }
-      emit('save', formData);
-    };
+      const goBack = () => {
+        router.push('/students');
+      };
 
-    const goBack = () => {
-      emit('back');
-    };
-
-    return {
-      formData,
-      generateCode,
-      saveStudent,
-      goBack,
-      isEditMode,
-    };
-  },
-});
+      return {
+        formData,
+        generateCode,
+        saveStudent,
+        goBack,
+        isEditMode,
+      };
+    },
+  });
 </script>
 
 <style scoped>

@@ -23,7 +23,7 @@
             </div>
             <div class="d-flex flex-row align-items-center justify-content-center gap-2 mb-2" style="width: 400px;">
                 <label class="block mb-2" style="width: 30%;">Birthday:</label>
-                <Calendar v-model="searchBirthday" dateFormat="dd/mm/yy" class="w-full" style="width: 70%;" />
+                <DayPicker v-model="searchBirthday" dateFormat="dd/mm/yy" class="w-full" style="width: 70%;" />
             </div>
             <div class="d-flex flex-row align-items-center justify-content-end gap-2 mb-2" style="width: 400px;">
                 <Button label="Search" icon="pi pi-search" @click="handleSearch" style="width: 33%;"/>
@@ -68,7 +68,7 @@
   import DataTable from 'primevue/datatable';
   import Column from 'primevue/column';
   import InputText from 'primevue/inputtext';
-  import Calendar from 'primevue/calendar';
+  import DayPicker from 'primevue/calendar';
   import Button from 'primevue/button';
   import Paginator from 'primevue/paginator';
   import { useRouter } from 'vue-router';
@@ -79,7 +79,7 @@
       DataTable,
       Column,
       InputText,
-      Calendar,
+      DayPicker,
       Button,
       Paginator,
     },

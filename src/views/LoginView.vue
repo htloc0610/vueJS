@@ -54,6 +54,7 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
 import { useRouter } from 'vue-router';
+import axios from 'axios';
 
 export default defineComponent({
   name: 'LoginForm',
@@ -63,6 +64,9 @@ export default defineComponent({
     const passwordInvalid = ref<boolean>(false);
     const emailInvalid = ref<boolean>(false);
     const router = useRouter();
+    const apiUrl = import.meta.env.VITE_API_URL;
+
+    console.log('API URL:', apiUrl);
 
     const validatePassword = () => {
       passwordInvalid.value = password.value.length < 6 || password.value.length > 20;
@@ -72,13 +76,26 @@ export default defineComponent({
       emailInvalid.value = user_name.value.length > 20;
     };
 
-    const handleLogin = () => {
+    const handleLogin = async () => {
       if (!emailInvalid.value && !passwordInvalid.value) {
-        console.log('userName:', user_name.value);
-        console.log('Password:', password.value);
+      try {
+        const response = await axios.post(`${apiUrl}/auth/login`, {
+            username: user_name.value,
+            password: password.value,
+        });
+        const token = response.data.data.token;
+        localStorage.setItem('token', `Bearer ${token}`);
+        console.log('Login successful, token saved to localStorage:', token);
         router.push('/students');
+      } catch (error) {
+        if (axios.isAxiosError(error)) {
+          console.error('Login failed:', error.response?.data);
+        } else {
+          console.error('Unexpected error:', error);
+        }
+      }
       } else {
-        console.log('Validation failed');
+      console.log('Validation failed');
       }
     };
 

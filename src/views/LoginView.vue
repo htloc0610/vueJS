@@ -84,7 +84,7 @@ export default defineComponent({
             password: password.value,
         });
         const token = response.data.data.token;
-        localStorage.setItem('token', `Bearer ${token}`);
+        localStorage.setItem('token', token);
         console.log('Login successful, token saved to localStorage:', token);
         router.push('/students');
       } catch (error) {

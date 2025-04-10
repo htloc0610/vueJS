@@ -1,15 +1,8 @@
 <template>
     <div class="p-4">
       <!-- Header -->
-      <div class="d-flex justify-content-between align-items-center mb-4">
-        <div>
-            <img src="@/assets/imgs/gmo.png" alt="Logo" style="width: 120px;" />
-        </div>
-        <div>
-          <span class="mr-3">Welcome, Nguyễn Văn A</span>
-          <Button label="Logout" class="p-button-text" @click="logout" />
-        </div>
-      </div>
+      <Header/>
+
   
       <!-- Search Form -->
         <div class="d-flex flex-column align-items-center justify-content-center">
@@ -63,14 +56,16 @@
   <script lang="ts">
   import { defineComponent, ref, computed } from 'vue';
   import { useStudentStore } from '@/store'; // Đường dẫn vẫn hoạt động nhờ export trong src/store/index.ts
+  import { useRouter } from 'vue-router';
+  
+  import Header from '../components/Header.vue';
+
   import DataTable from 'primevue/datatable';
   import Column from 'primevue/column';
   import InputText from 'primevue/inputtext';
   import DayPicker from 'primevue/calendar';
   import Button from 'primevue/button';
   import Paginator from 'primevue/paginator';
-  import { useRouter } from 'vue-router';
-
 
   export default defineComponent({
     components: {
@@ -80,6 +75,7 @@
       DayPicker,
       Button,
       Paginator,
+      Header
     },
     setup() {
       const studentStore = useStudentStore();
@@ -124,11 +120,6 @@
         studentStore.setPage(event.page + 1);
       };
   
-      const logout = () => {
-        // Logic đăng xuất
-        router.push('/'); // Redirect to login page
-      };
-
     const addStudent = () => {
         // Logic to add a new student (e.g., open a dialog or navigate to a form page)
         console.log('Add student clicked');
@@ -148,7 +139,6 @@
         editStudent,
         onPageChange,
         addStudent,
-        logout,
       };
     },
   });

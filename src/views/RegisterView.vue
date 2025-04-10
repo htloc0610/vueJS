@@ -113,7 +113,9 @@ export default defineComponent({
         .register(user_name.value, password.value)
         .then(() => {
           console.log("User registered successfully");
-          router.push("/login");
+          userStore.login(user_name.value, password.value).then(() => {
+            router.push("/students");
+          });
         })
         .catch((error) => {
           console.error("Registration failed:", error.response?.data);

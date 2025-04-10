@@ -60,6 +60,7 @@
 <script lang="ts">
 import { defineComponent, ref } from "vue";
 import { useRouter } from "vue-router";
+import { useUserStore } from "@/store/index";
 import axios from "axios";
 
 export default defineComponent({
@@ -70,7 +71,7 @@ export default defineComponent({
     const passwordInvalid = ref<boolean>(false);
     const emailInvalid = ref<boolean>(false);
     const router = useRouter();
-    const apiUrl = import.meta.env.VITE_API_URL;
+    const userStore = useUserStore();
 
     const validatePassword = () => {
       passwordInvalid.value = password.value.length < 6 || password.value.length > 20;
@@ -83,12 +84,7 @@ export default defineComponent({
     const handleLogin = async () => {
       if (!emailInvalid.value && !passwordInvalid.value) {
         try {
-          const response = await axios.post(`${apiUrl}/auth/login`, {
-            username: user_name.value,
-            password: password.value,
-          });
-          const token = response.data.data.token;
-          localStorage.setItem("token", token);
+          await userStore.login(user_name.value, password.value);
           alert(`Login successful!`);
           router.push("/students");
         } catch (error) {

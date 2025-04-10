@@ -1,9 +1,5 @@
 <template>
     <div class="p-4">
-      <!-- Header -->
-      <Header/>
-
-  
       <!-- Search Form -->
         <div class="d-flex flex-column align-items-center justify-content-center">
             <div class="d-flex flex-row align-items-center justify-content-center gap-2 mb-2" style="width: 400px; margin-left: -15%;">
@@ -30,14 +26,14 @@
             {{ (currentPage - 1) * pageSize + index + 1 }}
           </template>
         </Column>
-        <Column field="code" header="Code" />
-        <Column field="name" header="Name" />
-        <Column field="birthday" header="Birthday" />
-        <Column field="address" header="Address" />
-        <Column field="score" header="Score" />
+        <Column field="studentCode" header="Code" />
+        <Column field="studentName" header="Name" />
+        <Column field="dateOfBirth" header="Birthday" />
+        <Column field="studentAddress" header="Address" />
+        <Column field="averageScore" header="Score" />
         <Column header="Edit">
           <template #body="{ data }">
-            <Button label="Edit" class="p-button-text p-button-sm mr-2" @click="editStudent(data)" />
+            <Button label="Edit" class="p-button-text p-button-sm mr-2" @click="editStudent(data.studentId)" />
             <Button label="Delete" class="p-button-text p-button-sm p-button-danger" @click="deleteStudent(data.id)" />
           </template>
         </Column>
@@ -77,6 +73,10 @@
       Paginator,
       Header
     },
+    mounted() {
+      const studentStore = useStudentStore();
+      studentStore.fetchStudents();
+    },
     setup() {
       const studentStore = useStudentStore();
       const router = useRouter();
@@ -98,11 +98,11 @@
         const birthday = searchBirthday.value
           ? searchBirthday.value.toLocaleDateString('en-GB').split('/').join('/')
           : '';
-        studentStore.searchStudents({
-          code: searchCode.value,
-          name: searchName.value,
-          birthday,
-        });
+          studentStore.searchStudents({
+            code: searchCode.value,
+            name: searchName.value,
+            birthday,
+          });
       };
   
       const deleteStudent = (id: number) => {
@@ -111,19 +111,14 @@
         }
       };
   
-      const editStudent = (student: any) => {
+      const editStudent = (studentID: number) => {
         // Navigate to the edit student page with the student's ID
-        router.push(`/edit-student/${student.id}`);
+        router.push(`/edit-student/${studentID}`);
       };
   
       const onPageChange = (event: any) => {
         studentStore.setPage(event.page + 1);
       };
-  
-    const addStudent = () => {
-        // Logic to add a new student (e.g., open a dialog or navigate to a form page)
-        console.log('Add student clicked');
-    };
   
       return {
         searchCode,
@@ -138,7 +133,6 @@
         deleteStudent,
         editStudent,
         onPageChange,
-        addStudent,
       };
     },
   });

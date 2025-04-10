@@ -31,7 +31,6 @@ export const useUserStore = defineStore('user', {
       try {
         const res = await axios.get('/users/infor')
         this.username = res.data.data.username
-        console.log('User information:', this.username)
       } catch (error) {
         console.error('Error fetching user information:', error)
         throw error

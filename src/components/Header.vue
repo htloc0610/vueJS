@@ -14,8 +14,7 @@
 
 import { defineComponent } from 'vue';
 import { useRouter } from 'vue-router';
-import Button from 'primevue/button';
-import axiosInstance from '@/api/axios'; // Adjust the path as necessary
+import Button from 'primevue/button';// Adjust the path as necessary
 import { useUserStore } from '@/store/index'
 
 export default defineComponent({
@@ -32,7 +31,6 @@ export default defineComponent({
         this.userStore.getUserInfo()
             .then(() => {
                 this.username = this.userStore.username;
-                console.log('User information:', this.username);
             })
             .catch(error => {
                 console.error('Error fetching user information:', error);

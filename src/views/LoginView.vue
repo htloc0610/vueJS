@@ -89,10 +89,11 @@ export default defineComponent({
           });
           const token = response.data.data.token;
           localStorage.setItem("token", token);
+          alert(`Login successful!`);
           router.push("/students");
         } catch (error) {
           if (axios.isAxiosError(error)) {
-            console.error("Login failed:", error.response?.data);
+            alert(`Login failed: ${error.response?.data?.message || "Unknown error"}`);
           } else {
             console.error("Unexpected error:", error);
           }

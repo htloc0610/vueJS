@@ -78,6 +78,7 @@ export default defineComponent({
     const confirmPassword = ref<string>("");
     const emailInvalid = ref<boolean>(false);
     const passwordInvalid = ref<boolean>(false);
+    const router = useRouter();
 
     const passwordMismatch = computed(() => {
       return password.value !== confirmPassword.value && confirmPassword.value !== "";
@@ -112,12 +113,13 @@ export default defineComponent({
         .register(user_name.value, password.value)
         .then(() => {
           console.log("User registered successfully");
-          // Navigate back to login using router
-          const router = useRouter();
-          router.push("/");
+          router.push("/login");
         })
         .catch((error) => {
-          console.error("Registration failed:", error);
+          console.error("Registration failed:", error.response?.data);
+          if (error.response?.data.code === 409) {
+            alert(error.response?.data.message);
+          }
         });
     };
 

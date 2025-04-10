@@ -122,8 +122,18 @@ export const useStudentStore = defineStore("student", {
       this.currentPage = 1;
     },
 
-    getStudentById(id: number): Student | null {
-      return this.students.find((student) => student.studentId === id) || null;
+    async getStudentById(id: number): Promise<Student | null> {
+      this.isLoading = true;
+      this.error = null;
+      try {
+        const res = await axiosInstance.get(`/students/${id}`);
+        return mapStudentData(res.data.data);
+      } catch (err) {
+        this.error = "Failed to fetch student by ID";
+        return null;
+      } finally {
+        this.isLoading = false;
+      }
     },
 
     setPage(page: number) {

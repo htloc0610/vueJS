@@ -67,6 +67,8 @@
 
 <script lang="ts">
 import { defineComponent, ref, computed } from "vue";
+import { useUserStore } from "@/store";
+import { useRouter } from "vue-router";
 
 export default defineComponent({
   name: "RegisterForm",
@@ -104,8 +106,19 @@ export default defineComponent({
         return;
       }
 
-      console.log("UserName:", user_name.value);
-      console.log("Password:", password.value);
+      const userStore = useUserStore();
+
+      userStore
+        .register(user_name.value, password.value)
+        .then(() => {
+          console.log("User registered successfully");
+          // Navigate back to login using router
+          const router = useRouter();
+          router.push("/");
+        })
+        .catch((error) => {
+          console.error("Registration failed:", error);
+        });
     };
 
     return {

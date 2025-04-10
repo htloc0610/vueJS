@@ -37,6 +37,16 @@ export const useUserStore = defineStore("user", {
       }
     },
 
+    async register(username: string, password: string) {
+      try {
+      const res = await axios.post("/auth/register", { username, password });
+      console.log("Registration successful:", res.data.message);
+      } catch (error) {
+      console.error("Registration failed:", error);
+      throw error;
+      }
+    },
+
     logout() {
       this.username = "";
       this.accessToken = null;

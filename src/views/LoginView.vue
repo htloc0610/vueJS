@@ -72,8 +72,6 @@ export default defineComponent({
     const router = useRouter();
     const apiUrl = import.meta.env.VITE_API_URL;
 
-    console.log("API URL:", apiUrl);
-
     const validatePassword = () => {
       passwordInvalid.value = password.value.length < 6 || password.value.length > 20;
     };
@@ -91,7 +89,6 @@ export default defineComponent({
           });
           const token = response.data.data.token;
           localStorage.setItem("token", token);
-          console.log("Login successful, token saved to localStorage:", token);
           router.push("/students");
         } catch (error) {
           if (axios.isAxiosError(error)) {

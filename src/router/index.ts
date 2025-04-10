@@ -21,18 +21,31 @@ const router = createRouter({
       path: '/students',
       name: 'students',
       component: StudentManager,
+      meta: { requiresAuth: true}
     },
     {
       path: '/add-student',
       name: 'add_student',
       component: StudentForm,
+      meta: { requiresAuth: true}
     },
     {
       path: '/edit-student/:id',
       name: 'edit_student',
       component: StudentForm,
+      meta: { requiresAuth: true}
     },
   ],
+})
+
+
+router.beforeEach((to, from, next) => {
+  const token = localStorage.getItem('token')
+  if (to.meta.requiresAuth && !token) {
+    next({ name: 'login' })
+  } else {
+    next()
+  }
 })
 
 export default router

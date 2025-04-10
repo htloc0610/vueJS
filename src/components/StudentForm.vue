@@ -79,16 +79,16 @@ export default defineComponent({
 
     const isEditMode = !!route.params.id;
 
-    onMounted(() => {
+    onMounted( async () => {
       if (isEditMode) {
-        const student = studentStore.getStudentById(parseInt(route.params.id as string, 10));
-        if (student) {
+        const student = await studentStore.getStudentById(parseInt(route.params.id as string));
+        if (student) {  
           formData.id = student.studentId;
           formData.code = student.studentCode;
           formData.name = student.studentName;
           formData.address = student.studentAddress;
           formData.score = student.averageScore;
-            formData.birthday = new Date(student.dateOfBirth.split('/').reverse().join('-'));
+          formData.birthday = new Date(student.dateOfBirth.split('/').reverse().join('-'));
         }
       } else {
         generateCode();
@@ -121,7 +121,6 @@ export default defineComponent({
       } else {
         await studentStore.addStudent(studentPayload);
       }
-
       router.push('/students');
     };
 

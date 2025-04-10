@@ -44,16 +44,16 @@
 
     <!-- Table -->
     <DataTable :value="paginatedStudents" class="p-datatable-sm mt-4" responsiveLayout="scroll">
-      <Column field="id" header="No">
+      <Column sortable field="id" header="No">
         <template #body="{ index }">
           {{ (currentPage - 1) * pageSize + index + 1 }}
         </template>
       </Column>
-      <Column field="studentCode" header="Code" />
-      <Column field="studentName" header="Name" />
-      <Column field="dateOfBirth" header="Birthday" />
-      <Column field="studentAddress" header="Address" />
-      <Column field="averageScore" header="Score" />
+      <Column sortable field="studentCode" header="Code" />
+      <Column sortable field="studentName" header="Name" />
+      <Column sortable field="dateOfBirth" header="Birthday" />
+      <Column sortable field="studentAddress" header="Address" />
+      <Column sortable field="averageScore" header="Score" />
       <Column header="Edit">
         <template #body="{ data }">
           <Button

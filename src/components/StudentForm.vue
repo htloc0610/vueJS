@@ -66,7 +66,16 @@
       style="width: 400px"
     >
       <label class="block mb-2" style="width: 30%">Average Score:</label>
-      <InputNumber v-model="formData.score" type="number" class="w-full" style="width: 70%" />
+      <InputNumber
+        inputId="minmaxfraction"
+        mode="decimal"
+        :minFractionDigits="0"
+        :maxFractionDigits="2"
+        v-model="formData.score"
+        type="number"
+        class="w-full"
+        style="width: 70%"
+      />
     </div>
 
     <!-- Buttons -->

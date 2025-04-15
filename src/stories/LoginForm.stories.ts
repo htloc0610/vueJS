@@ -28,8 +28,7 @@ const Template: StoryFn<LoginFormArgs> = (args) => ({
     const password = ref(args.password);
     return { user_name, password };
   },
-  template:
-    '<LoginForm :user_name="user_name" :password="password" :emailInvalid="emailInvalid" :passwordInvalid="passwordInvalid" />',
+  template: '<LoginForm :user_name="user_name" :password="password" />',
 });
 
 export const Default = Template.bind({});

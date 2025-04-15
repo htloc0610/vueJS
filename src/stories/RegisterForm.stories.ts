@@ -35,3 +35,9 @@ InvalidPassword.args = {
   email: "test@example.com",
   password: "123",
 };
+
+export const BothInvalid = Template.bind({});
+BothInvalid.args = {
+  email: "invalid-email",
+  password: "123",
+};

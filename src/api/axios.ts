@@ -20,9 +20,10 @@ axiosInstance.interceptors.request.use((config) => {
 
 // Biến cờ tránh gọi refresh nhiều lần
 let isRefreshing = false;
+
 let failedQueue: any[] = [];
 
-const processQueue = (error: any, token: string | null = null) => {
+const processQueue = (error: Error | null, token: string | null = null) => {
   failedQueue.forEach((prom) => {
     if (error) {
       prom.reject(error);
@@ -49,7 +50,7 @@ axiosInstance.interceptors.response.use(
               originalRequest.headers.Authorization = "Bearer " + token;
               resolve(axiosInstance(originalRequest));
             },
-            reject: (err: any) => reject(err),
+            reject: (err: unknown) => reject(err),
           });
         });
       }

@@ -48,6 +48,7 @@
         dateFormat="dd/mm/yy"
         class="w-full"
         style="width: 70%"
+        :maxDate="new Date()"
       />
     </div>
 

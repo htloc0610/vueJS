@@ -31,6 +31,7 @@
           v-model="searchBirthday"
           dateFormat="dd/mm/yy"
           class="w-full"
+          :maxDate="new Date()"
           style="width: 70%"
         />
         <Button

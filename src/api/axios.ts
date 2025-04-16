@@ -21,14 +21,25 @@ axiosInstance.interceptors.request.use((config) => {
 // Biến cờ tránh gọi refresh nhiều lần
 let isRefreshing = false;
 
-let failedQueue: any[] = [];
+// Định nghĩa kiểu cho các item trong failedQueue
+interface FailedQueueItem {
+  resolve: (token: string) => void;
+  reject: (err: Error) => void;
+}
+
+// Thay thế `any[]` bằng `FailedQueueItem[]`
+let failedQueue: FailedQueueItem[] = [];
 
 const processQueue = (error: Error | null, token: string | null = null) => {
   failedQueue.forEach((prom) => {
     if (error) {
       prom.reject(error);
     } else {
-      prom.resolve(token);
+      if (token) {
+        prom.resolve(token);
+      } else {
+        prom.reject(new Error("Token is null"));
+      }
     }
   });
   failedQueue = [];
@@ -73,7 +84,7 @@ axiosInstance.interceptors.response.use(
         originalRequest.headers.Authorization = "Bearer " + newToken;
         return axiosInstance(originalRequest);
       } catch (err) {
-        processQueue(err, null);
+        processQueue(err as Error, null);
         localStorage.removeItem("token"); // Xoá token cũ nếu refresh fail
         return Promise.reject(err);
       } finally {
